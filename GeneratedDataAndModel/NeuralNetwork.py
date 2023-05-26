@@ -43,8 +43,6 @@ class_names = ['brak_karty', 'ciemnosc_nocy', 'empatyczne_natarcie',
                'przerazajace_ostrze', 'przewrotne_ostrze',
                'slabosc_umyslu', 'sprzezenie_zwrotne', 'uleglosc']
 
-# class_names = ['pasozytniczy_wplyw', 'ciemnosc_nocy', 'empatyczne_natarcie', 'sprzezenie_zwrotne']
-
 images, labels = create_images_and_labels_arrays(class_names, 200)
 X_train, X_test, Y_train, Y_test = train_test_split(images, labels)
 X_train = X_train.astype('float32') / 255
@@ -71,12 +69,6 @@ historia = nn.fit(X_train, Y_train,
                   # callbacks=[earlyStopping]
 )
 
-# images_to_predict = load_images_from_folder('other')
-# images_to_predict = np.array(images_to_predict)
-# labels_to_predict = []
-# for x in range(len(images_to_predict)):
-#     labels_to_predict.append([0, 1, 0, 0])
-
 images_to_predict = X_test
 labels_to_predict = Y_test
 prediction = nn.predict(images_to_predict)
@@ -91,14 +83,6 @@ for x in range(len(list(prediction))):
         good_predictions += 1
 print(f"Accuracy: {good_predictions/len(list(prediction))} %")
 
-# prediction = nn.predict(X_test)
-# good_predictions = 0
-# for pr in range(len(prediction)):
-#     if np.argmax(prediction[pr]) == Y_test[pr]:
-#         good_predictions += 1
-#     print(class_names[np.argmax(prediction[pr])])
-# print(Y_test)
-# print(f"Skuteczność predykcji: {good_predictions / len(prediction)}")
 
 nn.evaluate(X_test, Y_test)
 pd.DataFrame(historia.history).plot()
