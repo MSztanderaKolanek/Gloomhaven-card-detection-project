@@ -10,6 +10,23 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
+class CardDetector:
+    def __init__(self):
+        pass
+
+    def load_images(self):
+        pass
+
+    def create_images_and_labels_lists(self):
+        pass
+
+    def train(self):
+        pass
+
+    def predict(self):
+        pass
+
+
 def load_images_from_folder(folder):
     images = []
     for filename in os.listdir(f"GeneratedDataAndModel/{folder}"):
