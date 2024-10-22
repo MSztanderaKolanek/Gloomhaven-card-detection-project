@@ -18,7 +18,7 @@ def images_generator(classes, number_of_originals, images_to_generate):
             count = 0
             for batch in imgen.flow(card,
                                     batch_size=1,
-                                    save_to_dir=f'GeneratedDataAndModel/{class_}',
+                                    save_to_dir=f'GeneratedData/{class_}',
                                     save_format='jpg'):
                 count += 1
                 if count == images_to_generate:
@@ -27,7 +27,7 @@ def images_generator(classes, number_of_originals, images_to_generate):
 
 
 def deleting_all_generated_data():
-    files = glob.glob('GeneratedDataAndModel/ped')
+    files = glob.glob('GeneratedData/ped')
     for f in files:
         os.remove(f)
 
