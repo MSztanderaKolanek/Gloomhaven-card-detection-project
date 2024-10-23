@@ -29,9 +29,9 @@ class CardDetector:
 
 def load_images_from_folder(folder):
     images = []
-    for filename in os.listdir(f"GeneratedDataAndModel/{folder}"):
+    for filename in os.listdir(f"GeneratedData/{folder}"):
         img = cv2.imread(
-            f"C:/Users/Dell/PycharmProjects/Gloomhaven-card-detection-project/GeneratedDataAndModel/{folder}/{filename}")
+            f"C:/Users/Dell/PycharmProjects/Gloomhaven-card-detection-project/GeneratedData/{folder}/{filename}")
         if img is not None:
             images.append(img)
     return images
