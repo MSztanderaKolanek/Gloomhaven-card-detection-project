@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-class CardDetector:
+class DataLoader:
     def __init__(self):
         pass
 
@@ -18,6 +18,11 @@ class CardDetector:
         pass
 
     def create_images_and_labels_lists(self):
+        pass
+
+
+class CardDetector:
+    def __init__(self):
         pass
 
     def train(self):
@@ -29,9 +34,8 @@ class CardDetector:
 
 def load_images_from_folder(folder):
     images = []
-    for filename in os.listdir(f"GeneratedData/{folder}"):
-        img = cv2.imread(
-            f"C:/Users/Dell/PycharmProjects/Gloomhaven-card-detection-project/GeneratedData/{folder}/{filename}")
+    for filename in os.listdir(f"generated_data/{folder}"):
+        img = cv2.imread(f"generated_data/{folder}/{filename}")
         if img is not None:
             images.append(img)
     return images
@@ -61,7 +65,7 @@ class_names = ['brak_karty', 'ciemnosc_nocy', 'empatyczne_natarcie',
                'przerazajace_ostrze', 'przewrotne_ostrze',
                'slabosc_umyslu', 'sprzezenie_zwrotne', 'uleglosc']
 
-images, labels = create_images_and_labels_arrays(class_names, 60)
+images, labels = create_images_and_labels_arrays(class_names, 20)
 X_train, X_test, Y_train, Y_test = train_test_split(images, labels)
 X_train = X_train.astype('float32') / 255
 X_test = X_test.astype('float32') / 255
