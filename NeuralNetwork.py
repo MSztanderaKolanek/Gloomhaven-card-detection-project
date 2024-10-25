@@ -10,17 +10,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-class DataLoader:
-    def __init__(self):
-        pass
-
-    def load_images(self):
-        pass
-
-    def create_images_and_labels_lists(self):
-        pass
-
-
 class CardDetector:
     def __init__(self):
         pass
@@ -33,12 +22,13 @@ class CardDetector:
 
 
 def load_images_from_folder(folder):
-    images = []
-    for filename in os.listdir(f"generated_data/{folder}"):
-        img = cv2.imread(f"generated_data/{folder}/{filename}")
-        if img is not None:
-            images.append(img)
-    return images
+    # images = []
+    # for filename in os.listdir(f"generated_data/{folder}"):
+    #     img = cv2.imread(f"generated_data/{folder}/{filename}")
+    #     if img is not None:
+    #         images.append(img)
+    # return images
+    return [cv2.imread(f"generated_data/{folder}/{file}") for file in os.listdir(f"generated_data/{folder}")]
 
 
 def create_images_and_labels_arrays(classes, images_for_class):
