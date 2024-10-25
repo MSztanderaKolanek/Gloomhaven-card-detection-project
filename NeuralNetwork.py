@@ -8,17 +8,7 @@ import cv2
 import os
 import matplotlib.pyplot as plt
 import pandas as pd
-
-
-class CardDetector:
-    def __init__(self):
-        pass
-
-    def train(self):
-        pass
-
-    def predict(self):
-        pass
+import pickle
 
 
 def load_images_from_folder(folder):
@@ -114,4 +104,3 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm,
                               display_labels=np.unique(Y_test))
 disp.plot()
 plt.show()
-
