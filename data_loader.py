@@ -15,9 +15,15 @@ class DataLoader:
 
     def create_data_and_labels_arrays(self, classes, images_for_class):
         # TODO instead of two lists dictionary could be better
-        self.data = np.array([file for current_class in classes for file in self.load_data_from_folder(current_class)])
+        self.data = np.array([self.load_data_from_folder(current_class)[i] for current_class in classes for i in range(images_for_class)])
+        # images = []
+        # for x in range(len(classes)):
+        #     current_images = self.load_data_from_folder(classes[x])
+        #     for i in range(images_for_class):
+        #         images.append(current_images[i])
+        # self.data = np.array(images)
         for x in range(len(classes)):
-            label = [0]*9
+            label = [0]*11
             label[x] = 1
             self.labels.extend([label for _ in range(images_for_class)])
         self.labels = np.array(self.labels)

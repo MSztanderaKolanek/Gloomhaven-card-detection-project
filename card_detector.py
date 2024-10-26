@@ -18,8 +18,11 @@ class CardDetector:
         self.historical_values = None
 
     def display_historical_values(self):
-        pd.DataFrame(self.historical_values.history).plot()
-        plt.show()
+        if self.historical_values:
+            pd.DataFrame(self.historical_values.history).plot()
+            plt.show()
+        else:
+            print("No data to display")
 
     def save(self):
         model_pkl_file = "gloomhaven_classifier_model.pkl"
@@ -41,20 +44,24 @@ class CardDetector:
                                                 verbose=1)
 
     def classify(self, predict_data, predict_labels):
+        self.model.compile(optimizer='adam',
+                           loss='sparse_categorical_crossentropy')
         prediction = self.model.predict(predict_data)
         accurate_predictions = 0
+        # print(list(prediction))
+        # print(len(list(prediction)))
         for x in range(len(list(prediction))):
             real_value = list(predict_labels[x]).index(max(predict_labels[x]))
-            current_prediction = list(prediction[x]).index(max(prediction[x]))
+            # current_prediction = list(prediction[x]).index(max(prediction[x]))
             difference_array = np.absolute(prediction[x] - 1)
-            predict = difference_array.argmin()
-            print(f"wartosc prawdziwa {real_value}, predykcja {current_prediction}")
-            if real_value == predict:
+            current_prediction = difference_array.argmin()
+            print(f"Real value {real_value}, prediction {current_prediction}")
+            if real_value == current_prediction:
                 accurate_predictions += 1
         print(f"Accuracy: {accurate_predictions / len(list(prediction))} %")
 
-        self.model.evaluate(predict_labels)
-        pd.DataFrame(historia.history).plot()
+        # self.model.evaluate(predict_labels) TODO something wrong with model.evaluate
+        # pd.DataFrame(self.historical_values.history).plot()
         self.model.summary()
 
         Y_pred = np.argmax(self.model.predict(predict_data), axis=1)

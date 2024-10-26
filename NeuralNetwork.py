@@ -45,7 +45,7 @@ class_names = ['brak_karty', 'ciemnosc_nocy', 'empatyczne_natarcie',
                'przerazajace_ostrze', 'przewrotne_ostrze',
                'slabosc_umyslu', 'sprzezenie_zwrotne', 'uleglosc']
 
-images, labels = create_images_and_labels_arrays(class_names, 20)
+images, labels = create_images_and_labels_arrays(class_names, 3)
 X_train, X_test, Y_train, Y_test = train_test_split(images, labels)
 X_train = X_train.astype('float32') / 255
 X_test = X_test.astype('float32') / 255
@@ -65,7 +65,7 @@ model.compile(
     )
 
 historia = model.fit(X_train, Y_train,
-                     epochs=4,
+                     epochs=2,
                      validation_data=(X_test, Y_test),
                      verbose=1
                      # callbacks=[earlyStopping]
@@ -80,7 +80,7 @@ for x in range(len(list(prediction))):
     # predict = list(prediction[x]).index(max(prediction[x]))
     difference_array = np.absolute(prediction[x] - 1)
     predict = difference_array.argmin()
-    # print(f"wartosc prawdziwa {real_value}, predykcja {predict}")
+    print(f"wartosc prawdziwa {real_value}, predykcja {predict}")
     if real_value == predict:
         good_predictions += 1
 print(f"Accuracy: {good_predictions/len(list(prediction))} %")
