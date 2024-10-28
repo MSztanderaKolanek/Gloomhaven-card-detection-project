@@ -15,14 +15,27 @@ class CardDetector:
                                  Dense(units=80, activation='relu'),
                                  Dense(units=80, activation='relu'),
                                  Dense(units=11, activation='softmax')])
-        self.historical_values = None
+        self.train_values = None
+        self.prediction = None
 
     def display_historical_values(self):
-        if self.historical_values:
-            pd.DataFrame(self.historical_values.history).plot()
+        if self.train_values:
+            pd.DataFrame(self.train_values.history).plot()
             plt.show()
         else:
             print("No data to display")
+
+    def display_confusion_matrix(self, predict_labels):
+        if self.prediction is not None:
+            predictions = np.argmax(self.prediction, axis=1)
+            transformed_labels = [list(label).index(1) for label in predict_labels]
+            cm = confusion_matrix(transformed_labels, predictions, labels=np.unique(transformed_labels))
+            display = ConfusionMatrixDisplay(confusion_matrix=cm,
+                                             display_labels=np.unique(transformed_labels))
+            display.plot()
+            plt.show()
+        else:
+            print("No prediction done, cannot display confusion matrix")
 
     def save(self):
         model_pkl_file = "gloomhaven_classifier_model.pkl"
@@ -37,44 +50,23 @@ class CardDetector:
     def train(self, train_data, train_labels):
         self.model.compile(optimizer='adam',
                            loss='sparse_categorical_crossentropy')
-        self.historical_values = self.model.fit(train_data,
-                                                train_labels,
-                                                epochs=4,
-                                                validation_data=(train_data, train_labels),
-                                                verbose=1)
+        self.train_values = self.model.fit(train_data,
+                                           train_labels,
+                                           epochs=4,
+                                           validation_data=(train_data, train_labels),
+                                           verbose=1)
 
     def classify(self, predict_data, predict_labels):
         self.model.compile(optimizer='adam',
                            loss='sparse_categorical_crossentropy')
-        prediction = self.model.predict(predict_data)
+        self.prediction = self.model.predict(predict_data)
         accurate_predictions = 0
-        # print(list(prediction))
-        # print(len(list(prediction)))
-        for x in range(len(list(prediction))):
-            real_value = list(predict_labels[x]).index(max(predict_labels[x]))
-            # current_prediction = list(prediction[x]).index(max(prediction[x]))
-            difference_array = np.absolute(prediction[x] - 1)
+        for i in range(len(list(self.prediction))):
+            real_value = list(predict_labels[i]).index(max(predict_labels[i]))
+            difference_array = np.absolute(self.prediction[i] - 1)
             current_prediction = difference_array.argmin()
-            print(f"Real value {real_value}, prediction {current_prediction}")
             if real_value == current_prediction:
                 accurate_predictions += 1
-        print(f"Accuracy: {accurate_predictions / len(list(prediction))} %")
-
+        print(f"Accuracy: {accurate_predictions / len(list(self.prediction))} %")
         # self.model.evaluate(predict_labels) TODO something wrong with model.evaluate
-        # pd.DataFrame(self.historical_values.history).plot()
-        self.model.summary()
-
-        Y_pred = np.argmax(self.model.predict(predict_data), axis=1)
-        new_Y_test = []
-        for prediction in predict_labels:
-            for i in range(len(prediction)):
-                if prediction[i] == 1:
-                    new_Y_test.append(i)
-                    break
-        Y_test = new_Y_test
-
-        cm = confusion_matrix(Y_test, Y_pred, labels=np.unique(Y_test))
-        disp = ConfusionMatrixDisplay(confusion_matrix=cm,
-                                      display_labels=np.unique(Y_test))
-        disp.plot()
-        plt.show()
+        # self.model.summary()
