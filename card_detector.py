@@ -1,7 +1,6 @@
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Flatten
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import numpy as np
 import matplotlib.pyplot as plt
@@ -68,5 +67,3 @@ class CardDetector:
             if real_value == current_prediction:
                 accurate_predictions += 1
         print(f"Accuracy: {accurate_predictions / len(list(self.prediction))} %")
-        # self.model.evaluate(predict_labels) TODO something wrong with model.evaluate
-        # self.model.summary()

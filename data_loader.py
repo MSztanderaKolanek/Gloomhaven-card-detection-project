@@ -14,14 +14,8 @@ class DataLoader:
         return [cv2.imread(f"generated_data/{folder}/{file}") for file in os.listdir(f"generated_data/{folder}")]
 
     def create_data_and_labels_arrays(self, classes, images_for_class):
-        # TODO instead of two lists dictionary could be better
-        self.data = np.array([self.load_data_from_folder(current_class)[i] for current_class in classes for i in range(images_for_class)])
-        # images = []
-        # for x in range(len(classes)):
-        #     current_images = self.load_data_from_folder(classes[x])
-        #     for i in range(images_for_class):
-        #         images.append(current_images[i])
-        # self.data = np.array(images)
+        self.data = np.array([self.load_data_from_folder(current_class)[i] for current_class in
+                              classes for i in range(images_for_class)])
         for x in range(len(classes)):
             label = [0]*11
             label[x] = 1
